@@ -32,4 +32,30 @@ public class DatabaseHelper {
         // Повертаємо з'єднання
         return DriverManager.getConnection(url, user, password);
     }
+
+    public static void initDatabase() {
+        try (Connection conn = getConnection()) {
+            java.sql.DatabaseMetaData meta = conn.getMetaData();
+            try (java.sql.ResultSet rs = meta.getTables(null, null, "TRAINS", new String[] {"TABLE"})) {
+                if (!rs.next()) {
+                    System.out.println("Initializing database...");
+                    try (InputStream is = DatabaseHelper.class.getResourceAsStream("/schema.sql");
+                         java.sql.Statement stmt = conn.createStatement()) {
+                        if (is != null) {
+                            String schema = new String(is.readAllBytes());
+                            String[] commands = schema.split(";");
+                            for (String cmd : commands) {
+                                if (!cmd.trim().isEmpty()) {
+                                    stmt.execute(cmd);
+                                }
+                            }
+                            System.out.println("Database initialized successfully.");
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

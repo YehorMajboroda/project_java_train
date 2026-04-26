@@ -10,6 +10,7 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        com.railway.service.DatabaseHelper.initDatabase();
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/main.fxml"));
         primaryStage.setTitle("Управління Залізничними Рейсами");
         primaryStage.setScene(new Scene(root, 800, 600));

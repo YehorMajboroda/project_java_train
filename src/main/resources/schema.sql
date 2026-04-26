@@ -1,19 +1,21 @@
 -- ==========================================================
--- СТРУКТУРА БАЗИ ДАНИХ (Оновлена ER-діаграма)
+-- СТРУКТУРА БАЗИ ДАНИХ (Apache Derby)
+-- Примітка: Derby не підтримує конструкцію "IF NOT EXISTS", 
+-- тому якщо таблиці вже існують, ці команди видадуть помилку.
 -- ==========================================================
 
-CREATE TABLE IF NOT EXISTS TRAINS (
-    train_id INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE TRAINS (
+    train_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     train_number VARCHAR(50) NOT NULL UNIQUE,
     max_seats INT NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS STATIONS (
-    station_id INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE STATIONS (
+    station_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     station_name VARCHAR(100) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS ROUTE_STOPS (
+CREATE TABLE ROUTE_STOPS (
     train_id INT NOT NULL,
     stop_order INT NOT NULL,
     station_id INT NOT NULL,
@@ -25,16 +27,16 @@ CREATE TABLE IF NOT EXISTS ROUTE_STOPS (
     FOREIGN KEY (station_id) REFERENCES STATIONS(station_id) ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS TRAIN_RUNS (
-    run_id INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE TRAIN_RUNS (
+    run_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     train_id INT NOT NULL,
     run_date DATE NOT NULL,
     is_temporary BOOLEAN NOT NULL,
     FOREIGN KEY (train_id) REFERENCES TRAINS(train_id) ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS TICKETS (
-    ticket_id INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE TICKETS (
+    ticket_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     run_id INT NOT NULL,
     from_station_id INT NOT NULL,
     to_station_id INT NOT NULL,
