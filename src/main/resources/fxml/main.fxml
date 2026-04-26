@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.railway.controller.MainController">
+    <left>
+        <VBox spacing="10.0" prefWidth="250.0">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Label text="Дані Потяга" style="-fx-font-weight: bold;"/>
+            <TextField fx:id="txtTrainNumber" promptText="Номер потяга"/>
+            <TextField fx:id="txtMaxSeats" promptText="Максимальна кількість місць"/>
+            <HBox spacing="10">
+                <Button text="Додати" onAction="#handleAdd"/>
+                <Button text="Оновити" onAction="#handleUpdate"/>
+                <Button text="Видалити" onAction="#handleDelete"/>
+            </HBox>
+            
+            <Separator />
+            <Label text="Пошук" style="-fx-font-weight: bold;"/>
+            <TextField fx:id="txtSearchNumber" promptText="Частина номера"/>
+            <Button text="Шукати" onAction="#handleSearch"/>
+            
+            <Separator />
+            <Label text="Розширені Запити" style="-fx-font-weight: bold;"/>
+            <Button text="Топ 5 станцій" onAction="#handleQueryTopStations" maxWidth="Infinity"/>
+            <Button text="Тимчасові потяги" onAction="#handleQueryTempTrains" maxWidth="Infinity"/>
+        </VBox>
+    </left>
+    <center>
+        <VBox spacing="10">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <TableView fx:id="trainTable" VBox.vgrow="ALWAYS">
+                <columns>
+                    <TableColumn fx:id="colId" text="ID" prefWidth="50"/>
+                    <TableColumn fx:id="colNumber" text="Номер" prefWidth="150"/>
+                    <TableColumn fx:id="colMaxSeats" text="Кількість місць" prefWidth="120"/>
+                </columns>
+            </TableView>
+            <TextArea fx:id="txtQueryResult" prefHeight="100" promptText="Тут буде виведено результати запитів..." editable="false"/>
+        </VBox>
+    </center>
+</BorderPane>
